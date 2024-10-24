@@ -43,6 +43,7 @@ def parse_args():
         "in xxx=yyy format will be merged into config file (deprecate), "
         "change to --cfg-options instead.",
     )
+    parser.add_argument("--local-rank", default=0)
 
     args = parser.parse_args()
     # if 'LOCAL_RANK' not in os.environ:

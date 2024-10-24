@@ -1,0 +1,112 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "BLIP2 Training",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "torch.distributed.launch",
+            "console": "integratedTerminal",
+            "args": [
+                "--nproc_per_node",
+                "1",
+                "--rdzv-backend",
+                "c10d",
+                "--rdzv-endpoint",
+                "localhost:0",
+                "train.py",
+                "--cfg-path",
+                "lavis/projects/blip2/train/pretrain_stage1.yaml"
+            ]
+        },
+        {
+            "name": "Python Debugger: Current File",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "DINOv2 inference single node",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/NAS6/Members/linchenxi/dinov2/dinov2/eval/segmentation.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--config-file",
+                "/NAS6/Members/linchenxi/projects/DINOV2/model8/config.yaml",
+                "--pretrained-weights",
+                "/NAS6/Members/linchenxi/projects/DINOV2/model8/eval/training_24999/teacher_checkpoint.pth",
+                "--train-dataset",
+                "SengmentationSentinel2:split=TRAIN:root=/NAS6/Members/linchenxi/projects/RS_foundation_model/satlas/:extra=/NAS6/Members/linchenxi/ILSVRC",
+                "--val-dataset",
+                "SengmentationSentinel2:split=TEST:root=/NAS6/Members/linchenxi/projects/RS_foundation_model/satlas/:extra=/NAS6/Members/linchenxi/ILSVRC"
+            ]
+        },
+        {
+            "name": "DINOv2 inference multiple node",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "torch.distributed.launch",
+            "console": "integratedTerminal",
+            "args": [
+                "--nproc_per_node",
+                "1",
+                "/NAS6/Members/linchenxi/dinov2/dinov2/eval/knn.py",
+                "--config-file",
+                "/NAS6/Members/linchenxi/projects/DINOV2/model8/config.yaml",
+                "--pretrained-weights",
+                "/NAS6/Members/linchenxi/projects/DINOV2/model8/eval/training_24999/teacher_checkpoint.pth",
+                "--train-dataset",
+                "ClusterSentinel2:split=TEST:root=/NAS6/Members/linchenxi/projects/RS_foundation_model/satlas/clusters:extra=/NAS6/Members/linchenxi/ILSVRC",
+                "--val-dataset",
+                "ClusterSentinel2:split=TEST:root=/NAS6/Members/linchenxi/projects/RS_foundation_model/satlas/clusters:extra=/NAS6/Members/linchenxi/ILSVRC"
+            ],
+        },
+        {
+            "name": "DINOv2 visualize attention",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/NAS6/Members/linchenxi/dinov2/dinov2/visualize_attention.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--config-file",
+                "/NAS6/Members/linchenxi/projects/DINOV2/model8/config.yaml",
+                "--patch_size",
+                "14",
+                "--image_size",
+                "518",
+                "--pretrained_weights",
+                "/NAS6/Members/linchenxi/dinov2/pretrained_models/dinov2_vits14_pretrain.pth",
+                "--image_path",
+                "/NAS6/Members/linchenxi/ILSVRC/test/ILSVRC2012_test_00000088.JPEG",
+                "--output_dir",
+                "/NAS6/Members/linchenxi/foundation_model/attention_maps"
+            ]
+        },
+        {
+            "name": "DINOv2 visualize attention for Sentinel2",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/NAS6/Members/linchenxi/dinov2/dinov2/visualize_attention.py",
+            "console": "integratedTerminal",
+            "args": [
+                "--config-file",
+                "/NAS6/Members/linchenxi/projects/DINOV2/model8/config.yaml",
+                "--patch_size",
+                "16",
+                "--image_size",
+                "512",
+                "--pretrained_weights",
+                "/NAS6/Members/linchenxi/projects/DINOV2/model8/eval/training_24999/teacher_checkpoint.pth",
+                "--image_path",
+                "/NAS6/Members/linchenxi/projects/RS_foundation_model/satlas/test/8072_4984/20220702/tci_20220702_8072_4984.png",
+                "--output_dir",
+                "/NAS6/Members/linchenxi/foundation_model/attention_maps/model8"
+            ]
+        },
+    ]
+}
